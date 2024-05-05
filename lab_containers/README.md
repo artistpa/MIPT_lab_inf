@@ -31,14 +31,14 @@
 
 ## 3. Среднее время добавления в начало односвязного списка
 Измерялось время работы push_front, или push_forward, для subforwardlist, std::list и std::forward_list. Размер списков рассматривался от 100 до 10000 с шагом 100.
-### График: среднее время удаления для vector и subvector от size
+### График: среднее время работы push_front для list, forward_list и subforwardlist от size
 ![graph](3/img/push_forward_comparison_size_from_100_to_10000_step_100.png)
 
 В данном случае, исходя из графика, асимптотика добавления в начало для всех исследуемых контейнеров - O(1).
 
 ## 4. Среднее время удаления из начала односвязного списка
 Измерялось время работы pop_front, или pop_forward, для subforwardlist, std::list и std::forward_list. Размер списков рассматривался от 100 до 100000 с шагом 100.
-### График: среднее время удаления для vector и subvector от size
+### График: среднее время работы pop_front для list, forward_list и subforwardlist от size
 ![graph](4/img/pop_forward_comparison_size_from_100_to_100000_step_100.png)
 
 Опять же, исходя из графика, асимптотика удаления первого элемента для всех исследуемых контейнеров - O(1).
