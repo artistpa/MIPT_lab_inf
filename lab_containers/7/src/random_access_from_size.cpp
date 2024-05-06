@@ -33,13 +33,12 @@ int main()
     std::ofstream g1("standard_vector_size.csv", std::ios::out);
     std::ofstream g2("standard_vector_time.csv", std::ios::out);
 
-    // Задаём количество элементов
     int n = 100000;
 
-    // Заполняем вектор
     for (int j = 100; j < n; j += 100)
     {
-        for (int i = 0; i < j; i++)
+        v2.reserve(j / 10 + 5);
+        for (int i = 0; i < j; i += 10)
         {
             v1.push_back(i);
             v2.push_back(i);
@@ -50,13 +49,13 @@ int main()
 
         double sum1 = 0, sum2 = 0;
         double start;
+        std::random_device rd;   // non-deterministic generator
+        std::mt19937 gen(rd());  // to seed mersenne twister.
+        std::uniform_int_distribution<> dist(1, v2.size() - 2); // distribute results between 1 and 6 inclusive.
+        int num = dist(gen);
 
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 100000; i++)
         {
-            std::random_device rd;   // non-deterministic generator
-            std::mt19937 gen(rd());  // to seed mersenne twister.
-            std::uniform_int_distribution<> dist(0, v2.size() - 1); // distribute results between 1 and 6 inclusive.
-            int num = dist(gen);
             start = get_time();
             random_access(v1, num);
             sum1 += get_time() - start;
@@ -65,11 +64,8 @@ int main()
             sum2 += get_time() - start;
         }
 
-        f2 << sum1 / 1000 << std::endl;
-        g2 << sum2 / 1000 << std::endl;
-
-        sum1 = 0;
-        sum2 = 0;
+        f2 << sum1 / 100000 << std::endl;
+        g2 << sum2 / 100000 << std::endl;
 
         //Clearing
         v1.clear();

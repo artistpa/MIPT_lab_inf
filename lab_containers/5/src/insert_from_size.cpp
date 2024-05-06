@@ -3,6 +3,7 @@
 #include <set>
 #include <map>
 #include <chrono>
+#include <random>
 #include "subset.h"
 
 double get_time() {
@@ -37,10 +38,8 @@ int main()
     std::ofstream v1("multimap_size.csv", std::ios::out);
     std::ofstream v2("multimap_time.csv", std::ios::out);
 
-    // Задаём количество элементов
     int n = 100000;
 
-    // Заполняем вектор
     for (int j = 100; j <= n; j += 100)
     {
         for (int i = 0; i < j; i += 10)
@@ -57,32 +56,49 @@ int main()
         h1 << ms.size() << std::endl;
         v1 << mm.size() << std::endl;
 
+        double sum1 = 0, sum2 = 0, sum3 = 0, sum4 = 0, sum5 = 0;
         double start;
+        std::random_device rd;   // non-deterministic generator
+        std::mt19937 gen(rd());  // to seed mersenne twister.
+        std::uniform_int_distribution<> dist(51, 54); // distribute results between 1 and 6 inclusive.
+        int num = dist(gen);
 
-        //subset
-        start = get_time();
-        insert(&sn, j/3 + 3);
-        f2 << get_time() - start << std::endl;
+        for (int i = 0; i < 1000; i++)
+        {
+            start = get_time();
+            insert(&sn, num);
+            sum1 += get_time() - start;
+            start = get_time();
+            s.insert(num);
+            sum2 += get_time() - start;
+            start = get_time();
+            m.insert({num, num});
+            sum3 += get_time() - start;
+            start = get_time();
+            ms.insert(num);
+            sum4 += get_time() - start;
+            start = get_time();
+            mm.insert({num, num});
+            sum5 += get_time() - start;
+        }
 
-        //set
-        start = get_time();
-        s.insert(j/3 + 3);
-        g2 << get_time() - start << std::endl;
+            f2 << sum1 / 1000 << std::endl;
 
-        //map
-        start = get_time();
-        m.insert({j/3 + 3, j/3 + 17});
-        u2 << get_time() - start << std::endl;
+            //set
 
-        //multiset
-        start = get_time();
-        ms.insert(j/3 + 3);
-        h2 << get_time() - start << std::endl;
+            g2 << sum2 / 1000 << std::endl;
 
-        //multimap
-        start = get_time();
-        mm.insert({j/3 + 3, j/3 + 17});
-        v2 << get_time() - start << std::endl;
+            //map
+
+            u2 << sum3 / 1000 << std::endl;
+
+            //multiset
+
+            h2 << sum4 / 1000 << std::endl;
+
+            //multimap
+
+            v2 << sum5 / 1000 << std::endl;
 
         //Clearing
         destructor(&sn);
