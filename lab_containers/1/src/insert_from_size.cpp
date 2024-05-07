@@ -13,7 +13,6 @@ double get_time() {
 
 int main()
 {
-    // Создаём сабвектор
     subvector v1;
     std::vector<int> v2;
 
@@ -23,11 +22,8 @@ int main()
     std::ofstream g1("standard_vector_size.csv", std::ios::out);
     std::ofstream g2("standard_vector_time.csv", std::ios::out);
 
-    // Задаём количество элементов
     int n = 100000;
 
-
-    // Заполняем вектор
     for (int j = 0; j < n; j += 1000)
     {
         for (int i = 0; i < j; i++)
@@ -35,9 +31,9 @@ int main()
             v1.push_back(i);
             v2.push_back(i);
         }
-        f1 << j << std::endl;
-        g1 << j << std::endl;
-        auto it = v2.begin() + j / 2;;
+        f1 << v1.top << std::endl;
+        g1 << v2.size() << std::endl;
+        auto it = v2.begin() + j / 2;
         double start;
         start = get_time();
         v1.insert(10, j / 2);
@@ -45,6 +41,8 @@ int main()
         start = get_time();
         v2.insert(it, 10);
         g2 << get_time() - start << std::endl;
+        v1.clear();
+        v2.clear();
     }
 
 
